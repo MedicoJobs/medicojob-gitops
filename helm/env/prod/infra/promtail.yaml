@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/MedicoJobs/medicojob-gitops.git
-    targetRevision: feature-branch
+    targetRevision: main
     path: helm/infra/promtail
     helm:
       valueFiles:

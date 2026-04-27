@@ -1,0 +1,69 @@
+name: Promote reviewed dev images to prod
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  promote-prod:
+    if: github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'feature-branch'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Install yq
+        shell: bash
+        run: |
+          sudo wget -q https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 -O /usr/local/bin/yq
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Promote changed dev image tags to prod
+        shell: bash
+        run: |
+          changed_files="$(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.merge_commit_sha }}" -- 'helm/apps/*/values-dev.yaml')"
+
+          if [ -z "$changed_files" ]; then
+            echo "No service image values changed."
+            exit 0
+          fi
+
+          for dev_file in $changed_files; do
+            prod_file="${dev_file/values-dev.yaml/values-prod.yaml}"
+
+            if [ ! -f "$prod_file" ]; then
+              echo "Missing prod values file for $dev_file"
+              exit 1
+            fi
+
+            export IMAGE_REPOSITORY="$(yq '.image.repository' "$dev_file")"
+            export IMAGE_TAG="$(yq '.image.tag' "$dev_file")"
+
+            if [ "$IMAGE_TAG" = "latest" ] || [ -z "$IMAGE_TAG" ] || [ "$IMAGE_TAG" = "null" ]; then
+              echo "Refusing to promote non-immutable tag '$IMAGE_TAG' from $dev_file"
+              exit 1
+            fi
+
+            yq -i '.image.repository = strenv(IMAGE_REPOSITORY) | .image.tag = strenv(IMAGE_TAG) | .image.pullPolicy = "IfNotPresent"' "$prod_file"
+            echo "Promoted $dev_file -> $prod_file with tag $IMAGE_TAG"
+          done
+
+      - name: Commit production promotion
+        shell: bash
+        run: |
+          git config user.name "medicojob-ci"
+          git config user.email "medicojob-ci@users.noreply.github.com"
+          git add helm/apps/*/values-prod.yaml
+          git commit -m "promote reviewed images to prod" || exit 0
+          git push origin main
