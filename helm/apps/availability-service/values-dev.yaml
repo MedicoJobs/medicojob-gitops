@@ -3,7 +3,7 @@ name: availability-service
 replicaCount: 1
 image:
   repository: ghcr.io/medicojobs/medicojob-availability-service
-  tag: f39e027
+  tag: 88c56c7
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 service:
