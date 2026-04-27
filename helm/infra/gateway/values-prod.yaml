@@ -1,0 +1,4 @@
+namespace: prod
+name: medicojob-gateway
+gatewayClassName: kgateway
+port: 5000

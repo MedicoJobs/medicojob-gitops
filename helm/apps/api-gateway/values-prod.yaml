@@ -1,0 +1,28 @@
+namespace: prod
+name: api-gateway
+replicaCount: 2
+image:
+  repository: ghcr.io/medicojobs/medicojob-api-gateway
+  tag: latest
+  pullPolicy: IfNotPresent
+imagePullSecrets: []
+service:
+  type: ClusterIP
+  port: 5000
+containerPort: 5000
+configMap:
+  enabled: true
+  name: medicojob-config
+secret:
+  enabled: true
+  name: medicojob-secrets
+env:
+  PORT: "5000"
+httpRoute:
+  enabled: false
+  gatewayName: medicojob-gateway
+  paths: []
+serviceAccount:
+  create: true
+job:
+  enabled: false

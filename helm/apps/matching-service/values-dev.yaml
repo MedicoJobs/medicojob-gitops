@@ -1,0 +1,29 @@
+namespace: dev
+name: matching-service
+replicaCount: 1
+image:
+  repository: ghcr.io/medicojobs/medicojob-matching-service
+  tag: latest
+  pullPolicy: IfNotPresent
+imagePullSecrets: []
+service:
+  type: ClusterIP
+  port: 5003
+containerPort: 5003
+configMap:
+  enabled: true
+  name: medicojob-config
+secret:
+  enabled: true
+  name: medicojob-secrets
+env:
+  PORT: "5003"
+httpRoute:
+  enabled: true
+  gatewayName: medicojob-gateway
+  paths:
+    - /match
+serviceAccount:
+  create: true
+job:
+  enabled: false

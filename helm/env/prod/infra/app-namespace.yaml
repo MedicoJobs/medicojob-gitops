@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prod-app-namespace
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/MedicoJobs/medicojob-gitops.git
+    targetRevision: main
+    path: helm/infra/app-namespace
+    helm:
+      valueFiles:
+        - values-prod.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prod
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,17 @@
+{{- if .Values.job.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.name }}-job
+  namespace: {{ .Values.namespace }}
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: {{ .Values.name }}
+      containers:
+      - name: {{ .Values.name }}-job
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: {{ toJson .Values.job.command }}
+{{- end }}

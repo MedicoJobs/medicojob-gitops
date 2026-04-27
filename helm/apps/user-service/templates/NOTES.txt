@@ -1,0 +1,13 @@
+{{ .Values.name }} has been deployed to namespace {{ .Values.namespace }}.
+
+Service:
+  {{ .Values.name }}.{{ .Values.namespace }}.svc.cluster.local:{{ .Values.service.port }}
+
+{{- if .Values.httpRoute.enabled }}
+HTTPRoute:
+  Gateway: {{ .Values.httpRoute.gatewayName }}
+  Paths:
+{{- range .Values.httpRoute.paths }}
+    - {{ . }}
+{{- end }}
+{{- end }}

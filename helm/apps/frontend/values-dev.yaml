@@ -1,0 +1,31 @@
+namespace: dev
+name: frontend
+replicaCount: 1
+image:
+  repository: ghcr.io/medicojobs/medicojob-frontend
+  tag: latest
+  pullPolicy: Always
+imagePullSecrets: []
+service:
+  type: ClusterIP
+  port: 3000
+containerPort: 3000
+configMap:
+  enabled: true
+  name: medicojob-config
+secret:
+  enabled: true
+  name: medicojob-secrets
+env:
+  HOST: "0.0.0.0"
+  PORT: "3000"
+  REACT_APP_API_URL: "http://api-gateway:5000"
+httpRoute:
+  enabled: true
+  gatewayName: medicojob-gateway
+  paths:
+    - /
+serviceAccount:
+  create: true
+job:
+  enabled: false

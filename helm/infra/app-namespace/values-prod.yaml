@@ -1,0 +1,33 @@
+namespace: prod
+environment: production
+configMap:
+  name: medicojob-config
+config:
+  PORT: "5000"
+  USER_SERVICE_URL: "http://user-service:5001"
+  JOB_SERVICE_URL: "http://job-service:5002"
+  MATCHING_SERVICE_URL: "http://matching-service:5003"
+  AVAILABILITY_SERVICE_URL: "http://availability-service:5004"
+  LOCATION_SERVICE_URL: "http://location-service:5005"
+  REPUTATION_SERVICE_URL: "http://reputation-service:5006"
+secret:
+  create: true
+  name: medicojob-secrets
+  data:
+    MONGO_INITDB_ROOT_USERNAME: "pavi"
+    MONGO_INITDB_ROOT_PASSWORD: "pavi@123"
+    MONGO_URI: "mongodb://pavi:pavi%40123@mongodb:27017/medicojob?authSource=admin"
+    MONGO_URI_USER: "mongodb://pavi:pavi%40123@mongodb:27017/medicojob?authSource=admin"
+    MONGO_URI_JOB: "mongodb://pavi:pavi%40123@mongodb:27017/medicojob?authSource=admin"
+    MONGO_URI_MATCHING: "mongodb://pavi:pavi%40123@mongodb:27017/medicojob?authSource=admin"
+    MONGO_URI_AVAILABILITY: "mongodb://pavi:pavi%40123@mongodb:27017/medicojob?authSource=admin"
+    MONGO_URI_LOCATION: "mongodb://pavi:pavi%40123@mongodb:27017/medicojob?authSource=admin"
+    MONGO_URI_REPUTATION: "mongodb://pavi:pavi%40123@mongodb:27017/medicojob?authSource=admin"
+    JWT_SECRET: "super_secret_jwt_key_medicojob_2026"
+imagePullSecret:
+  enabled: false
+  name: ghcr-secret
+  server: ghcr.io
+  username: ""
+  password: ""
+  email: ""
