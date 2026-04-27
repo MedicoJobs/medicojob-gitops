@@ -3,7 +3,7 @@ name: frontend
 replicaCount: 1
 image:
   repository: ghcr.io/medicojobs/medicojob-frontend
-  tag: 49ea4c1
+  tag: b7ea7bb
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 service:
