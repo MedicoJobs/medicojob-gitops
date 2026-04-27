@@ -3,7 +3,7 @@ name: location-service
 replicaCount: 1
 image:
   repository: ghcr.io/medicojobs/medicojob-location-service
-  tag: e390bc7
+  tag: 1d1f50f
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 service:
