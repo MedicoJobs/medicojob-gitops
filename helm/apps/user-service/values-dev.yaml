@@ -3,7 +3,7 @@ name: user-service
 replicaCount: 1
 image:
   repository: ghcr.io/medicojobs/medicojob-user-service
-  tag: "9884186"
+  tag: "e685cd1"
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 service:
