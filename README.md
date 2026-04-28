@@ -28,8 +28,11 @@ kubectl apply -f helm/env/prod/root/apps-root.yaml
 Each microservice should have its own CI pipeline:
 
 1. Build the Docker image.
-2. Push it to GHCR with an immutable tag, usually the Git commit SHA.
-3. Commit that new tag into this repo under the correct Helm values file.
-4. Argo CD sees the Git change and automatically syncs the Kubernetes Deployment.
+2. Push it to GHCR with an immutable tag, the first 7 characters of the merge commit SHA.
+3. Commit that new tag into this repo under the correct `values-dev.yaml` file on `feature-branch`.
+4. Dev Argo CD watches `feature-branch` and deploys to the `dev` namespace.
+5. A reviewer reviews and merges `feature-branch` into `main`.
+6. The GitOps promotion workflow copies reviewed dev image tags into `values-prod.yaml` on `main`.
+7. Prod Argo CD watches `main` and deploys to the `prod` namespace.
 
 See [helm/CI_PIPELINE_TEMPLATE.md](helm/CI_PIPELINE_TEMPLATE.md) for the GitHub Actions template to copy into each microservice repo.

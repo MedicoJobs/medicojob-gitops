@@ -3,7 +3,7 @@ name: reputation-service
 replicaCount: 1
 image:
   repository: ghcr.io/medicojobs/medicojob-reputation-service
-  tag: latest
+  tag: 524e84a
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 service:

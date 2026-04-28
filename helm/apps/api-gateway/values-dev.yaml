@@ -2,8 +2,8 @@ namespace: dev
 name: api-gateway
 replicaCount: 1
 image:
-  repository: ghcr.io/medicojobs/medicojob-api-gateway
-  tag: latest
+  repository: ghcr.io/medicojobs/medicojob-api-gateway-service
+  tag: 0dc43b0
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 service:

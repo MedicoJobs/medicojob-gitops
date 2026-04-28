@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/MedicoJobs/medicojob-gitops.git
-    targetRevision: main
+    targetRevision: feature-branch
     path: helm/infra/storage
     helm:
       valueFiles:
