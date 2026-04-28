@@ -3,7 +3,7 @@ name: matching-service
 replicaCount: 2
 image:
   repository: ghcr.io/medicojobs/medicojob-matching-service
-  tag: latest
+  tag: 466bef7
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 service:

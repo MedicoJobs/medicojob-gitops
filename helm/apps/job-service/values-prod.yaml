@@ -3,7 +3,7 @@ name: job-service
 replicaCount: 2
 image:
   repository: ghcr.io/medicojobs/medicojob-job-service
-  tag: latest
+  tag: 91b5c15
   pullPolicy: IfNotPresent
 imagePullSecrets: []
 service:
